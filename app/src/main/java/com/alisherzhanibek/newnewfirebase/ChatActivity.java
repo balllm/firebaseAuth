@@ -15,10 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
@@ -36,7 +34,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity {
     private MessageAdapter messageAdapter;
     private ListView listView;
     private ImageButton sendImageButton;
@@ -68,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.signout){
             FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(MainActivity.this, SignUp.class));
+            startActivity(new Intent(ChatActivity.this, SignUp.class));
             return true;
         }else{
             return super.onOptionsItemSelected(item);
@@ -78,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_chat);
         init();
         Intent intent = getIntent();
         if(intent != null){
@@ -117,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }else{
                     sendMessageButton.isEnabled();
-                    Toast.makeText(MainActivity.this, "нельзя отправить пустое сообщение", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChatActivity.this, "нельзя отправить пустое сообщение", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -146,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         myRef.addChildEventListener(messageChildEventListener);
+
         usersChildEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -181,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FirebaseDatabase.getInstance().getReference("message").removeValue();
-                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                Intent intent = new Intent(ChatActivity.this, ChatActivity.class);
                 startActivity(intent);
             }
         });
@@ -210,7 +209,6 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(messageAdapter);
 
         database = FirebaseDatabase.getInstance();
-
         myRef = database.getReference("message");
         chatRef = storage.getReference("ChatImages");
         userDatabaseReference = database.getReference("users");

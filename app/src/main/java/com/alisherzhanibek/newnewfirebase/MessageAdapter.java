@@ -32,6 +32,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
         ImageView sendImage = convertView.findViewById(R.id.sendImgView);
 
 
+        //
         if(sendImage == null){
             sendImage.setVisibility(View.VISIBLE);
         }else{
@@ -51,8 +52,6 @@ public class MessageAdapter extends ArrayAdapter<Message> {
 //            Glide.with(photoImageView.getContext())
 //                    .load(message.getImageurl())
 //                    .into(photoImageView);
-
-
             Glide.with(sendImage.getContext())
                     .load(message.getSendIMG())
                     .into(sendImage);
